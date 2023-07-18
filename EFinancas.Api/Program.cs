@@ -1,4 +1,4 @@
-using EFinancas.Api.Configuracoes;
+using EFinancas.Api.Configuracao;
 using EFinancas.Dominio.Interfaces.Repositorios;
 using EFinancas.Infraestrutura.Repositorios;
 
