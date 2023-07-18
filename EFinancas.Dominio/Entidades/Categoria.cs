@@ -2,9 +2,9 @@
 
 namespace EFinancas.Dominio.Entidades
 {
-    internal class Categoria : IIdentificador, IDescricao
+    public class Categoria : IIdentificador, IDescricao
     {
-        public string Id { get; set; } = "";
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Descricao { get; set; } = "";
     }
 }

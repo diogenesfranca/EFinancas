@@ -1,3 +1,6 @@
+using EFinancas.Api.Configuracoes;
+using EFinancas.Dominio.Interfaces.Repositorios;
+using EFinancas.Infraestrutura.Repositorios;
 
 namespace EFinancas.Api
 {
@@ -13,6 +16,10 @@ namespace EFinancas.Api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.ConfigurarDynamo();
+
+            builder.Services.AddScoped<ICategoriasRepositorio, CategoriasRepositorio>();
 
             var app = builder.Build();
 
