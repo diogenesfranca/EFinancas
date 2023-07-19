@@ -18,15 +18,22 @@ namespace EFinancas.Api.Controllers
         }
 
         [HttpGet]
-        public void Get()
+        public async Task<IActionResult> Get()
         {
-            
+            return Ok(await categoriasRepositorio.Listar());
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(string categoria)
         {
             await categoriasRepositorio.Inserir(new Categoria { Descricao = categoria });
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string categoria)
+        {
+            await categoriasRepositorio.Deletar(categoria);
             return Ok();
         }
     }
