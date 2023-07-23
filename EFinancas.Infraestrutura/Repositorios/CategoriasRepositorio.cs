@@ -11,7 +11,7 @@ namespace EFinancas.Infraestrutura.Repositorios
 
         public CategoriasRepositorio(IMongoDatabase database)
         {
-            collection = database.GetCollection<Categoria>(Tabelas.Categorias);
+            collection = database.GetCollection<Categoria>(Collections.Categorias);
         }
 
         public async Task<IEnumerable<Categoria>> Listar()
