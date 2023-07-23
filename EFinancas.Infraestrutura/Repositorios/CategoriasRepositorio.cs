@@ -31,7 +31,7 @@ namespace EFinancas.Infraestrutura.Repositorios
 
         public Task Deletar(string categoria)
         {
-            return collection.DeleteManyAsync(x => x.Descricao == categoria);
+            return collection.DeleteOneAsync(x => x.Descricao == categoria);
         }
     }
 }
