@@ -16,7 +16,7 @@ namespace EFinancas.Infraestrutura.Repositorios
 
         public async Task<IEnumerable<Categoria>> Listar()
         {
-             return await collection.Find(null).ToListAsync();
+             return await collection.Find(Builders<Categoria>.Filter.Empty).ToListAsync();
         }
 
         public Task Inserir(Categoria categoria)
