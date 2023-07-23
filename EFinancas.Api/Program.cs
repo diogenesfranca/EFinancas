@@ -1,4 +1,4 @@
-using EFinancas.Api.Configuracao;
+using EFinancas.Dominio.Configuracao;
 using EFinancas.Dominio.Interfaces.Repositorios;
 using EFinancas.Infraestrutura.Repositorios;
 
@@ -17,7 +17,7 @@ namespace EFinancas.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.ConfigurarDynamo();
+            builder.Services.ConfigurarMongo();
 
             builder.Services.AddScoped<ICategoriasRepositorio, CategoriasRepositorio>();
 

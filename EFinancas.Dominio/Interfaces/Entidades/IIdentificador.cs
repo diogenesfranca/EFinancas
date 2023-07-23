@@ -1,7 +1,9 @@
-﻿namespace EFinancas.Dominio.Interfaces.Entidades
+﻿using MongoDB.Bson;
+
+namespace EFinancas.Dominio.Interfaces.Entidades
 {
     internal interface IIdentificador
     {
-        string Id {get;set;}
+        ObjectId Id {get;set;}
     }
 }

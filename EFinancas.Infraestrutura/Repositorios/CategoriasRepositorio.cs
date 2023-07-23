@@ -1,53 +1,32 @@
-﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2.Model;
+﻿using EFinancas.Dominio.Constantes;
 using EFinancas.Dominio.Entidades;
 using EFinancas.Dominio.Interfaces.Repositorios;
+using MongoDB.Driver;
 
 namespace EFinancas.Infraestrutura.Repositorios
 {
     public class CategoriasRepositorio : ICategoriasRepositorio
     {
-        private const string tableName = "Categorias";
+        private readonly IMongoCollection<Categoria> collection;
 
-        private readonly IAmazonDynamoDB client;
-        private readonly IDynamoDBContext context;
-
-        public CategoriasRepositorio(IAmazonDynamoDB client, IDynamoDBContext context)
+        public CategoriasRepositorio(IMongoDatabase database)
         {
-            this.client = client;
-            this.context = context;
+            collection = database.GetCollection<Categoria>(Tabelas.Categorias);
         }
 
         public async Task<IEnumerable<Categoria>> Listar()
         {
-            return await context.ScanAsync<Categoria>(null).GetRemainingAsync();
+             return await collection.Find(null).ToListAsync();
         }
 
         public Task Inserir(Categoria categoria)
         {
-            var request = new PutItemRequest
-            {
-                TableName = tableName,
-                Item = new Dictionary<string, AttributeValue>
-                {
-                    { "Id", new AttributeValue { S = categoria.Id } },
-                    { "Descricao", new AttributeValue { S = categoria.Descricao } }
-                }
-            };
-
-            return client.PutItemAsync(request);
+            return collection.InsertOneAsync(categoria);
         }
 
         public Task Deletar(string categoria)
         {
-            var request = new DeleteItemRequest
-            {
-                TableName = tableName,
-                Key = new Dictionary<string, AttributeValue> { ["Descricao"] = new AttributeValue { S = categoria } }
-            };
-
-            return client.DeleteItemAsync(request);
+            return collection.DeleteManyAsync(x => x.Descricao == categoria);
         }
     }
 }
