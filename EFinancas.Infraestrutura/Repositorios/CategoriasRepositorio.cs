@@ -16,12 +16,17 @@ namespace EFinancas.Infraestrutura.Repositorios
 
         public async Task<IEnumerable<Categoria>> Listar()
         {
-             return await collection.Find(Builders<Categoria>.Filter.Empty).ToListAsync();
+            return await collection.Find(Builders<Categoria>.Filter.Empty).ToListAsync();
         }
 
         public Task Inserir(Categoria categoria)
         {
             return collection.InsertOneAsync(categoria);
+        }
+
+        public Task Atualizar(Categoria categoria)
+        {
+            return collection.ReplaceOneAsync(x => x.Id == categoria.Id, categoria);
         }
 
         public Task Deletar(string categoria)

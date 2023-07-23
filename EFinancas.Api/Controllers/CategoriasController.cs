@@ -30,6 +30,13 @@ namespace EFinancas.Api.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Put(Categoria categoria)
+        {
+            await categoriasRepositorio.Atualizar(categoria);
+            return Ok();
+        }
+
         [HttpDelete]
         public async Task<IActionResult> Delete(string categoria)
         {
