@@ -26,6 +26,7 @@ namespace EFinancas.Dominio.Configuracao
                 var database = client!.GetDatabase("efinancas");
 
                 CriarIndice<Categoria>(database, Collections.Categorias, true, x => x.Descricao);
+                CriarIndice<Conta>(database, Collections.Contas, true, x => x.Descricao);
 
                 return database;
             });

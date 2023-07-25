@@ -1,5 +1,7 @@
 using EFinancas.Dominio.Configuracao;
 using EFinancas.Dominio.Interfaces.Repositorios;
+using EFinancas.Dominio.Interfaces.Servicos;
+using EFinancas.Dominio.Servicos;
 using EFinancas.Infraestrutura.Repositorios;
 
 namespace EFinancas.Api
@@ -18,8 +20,9 @@ namespace EFinancas.Api
             builder.Services.AddSwaggerGen();
 
             builder.Services.ConfigurarMongo();
-
-            builder.Services.AddScoped<ICategoriasRepositorio, CategoriasRepositorio>();
+            
+            ConfigurarRepositorios(builder.Services);
+            ConfigurarServicos(builder.Services);
 
             var app = builder.Build();
 
@@ -38,6 +41,17 @@ namespace EFinancas.Api
             app.MapControllers();
 
             app.Run();
+        }
+
+        private static void ConfigurarRepositorios(IServiceCollection services)
+        {
+            services.AddScoped<ICategoriasRepositorio, CategoriasRepositorio>();
+            services.AddScoped<IContasRepositorio, ContasRepositorio>();
+        }
+
+        private static void ConfigurarServicos(IServiceCollection services)
+        {
+            services.AddScoped<IGerenciamentoContaServico, GerenciamentoContaServico>();
         }
     }
 }

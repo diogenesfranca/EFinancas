@@ -3,5 +3,6 @@
     public class Collections
     {
         public const string Categorias = "categorias";
+        public const string Contas = "contas";
     }
 }
