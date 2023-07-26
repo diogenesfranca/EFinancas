@@ -4,5 +4,6 @@
     {
         public const string Categorias = "categorias";
         public const string Contas = "contas";
+        public const string Receitas = "receitas";
     }
 }

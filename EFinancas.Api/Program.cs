@@ -47,12 +47,14 @@ namespace EFinancas.Api
         {
             services.AddScoped<ICategoriasRepositorio, CategoriasRepositorio>();
             services.AddScoped<IContasRepositorio, ContasRepositorio>();
+            services.AddScoped<IReceitasRepositorio, ReceitasRepositorio>();
         }
 
         private static void ConfigurarServicos(IServiceCollection services)
         {
             services.AddScoped<IGerenciamentoCategoriasServico, GerenciamentoCategoriasServico>();
             services.AddScoped<IGerenciamentoContasServico, GerenciamentoContasServico>();
+            services.AddScoped<IGerenciamentoReceitasServico, GerenciamentoReceitasServico>();
         }
     }
 }

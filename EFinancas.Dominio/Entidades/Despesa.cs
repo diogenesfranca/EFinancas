@@ -10,9 +10,9 @@ namespace EFinancas.Dominio.Entidades
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; } = "";
         public string Descricao { get; set; } = "";
-        public Categoria Categoria { get; set; } = new();
         public decimal Valor { get; set; }
-        public DateTime Data { get; set; }
-        public Guid IdConta { get; set; }
+        public DateOnly Data { get; set; }
+        public string IdConta { get; set; } = "";
+        public IEnumerable<string> IdsCategorias { get; set; } = new List<string>();
     }
 }

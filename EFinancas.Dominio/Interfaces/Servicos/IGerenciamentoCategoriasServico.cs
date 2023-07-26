@@ -2,7 +2,7 @@
 {
     public interface IGerenciamentoCategoriasServico
     {
-        Task Atualizar(string id, string categoria);
         Task Inserir(string categoria);
+        Task Atualizar(string id, string categoria);
     }
 }
