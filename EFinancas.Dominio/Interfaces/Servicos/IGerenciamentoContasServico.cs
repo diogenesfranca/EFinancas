@@ -2,7 +2,7 @@
 
 namespace EFinancas.Dominio.Interfaces.Servicos
 {
-    public interface IGerenciamentoContaServico
+    public interface IGerenciamentoContasServico
     {
         Task Inserir(Conta conta);
         Task Atualizar(string id, Conta conta);

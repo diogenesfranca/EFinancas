@@ -4,11 +4,11 @@ using EFinancas.Dominio.Interfaces.Servicos;
 
 namespace EFinancas.Dominio.Servicos
 {
-    public class GerenciamentoContaServico : IGerenciamentoContaServico
+    public class GerenciamentoContasServico : IGerenciamentoContasServico
     {
         private readonly IContasRepositorio contasRepositorio;
 
-        public GerenciamentoContaServico(IContasRepositorio contasRepositorio)
+        public GerenciamentoContasServico(IContasRepositorio contasRepositorio)
         {
             this.contasRepositorio = contasRepositorio;
         }

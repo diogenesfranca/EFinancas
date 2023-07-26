@@ -7,6 +7,6 @@ namespace EFinancas.Dominio.Interfaces.Repositorios
         Task<IEnumerable<Categoria>> Listar();
         Task Inserir(Categoria categoria);
         Task Atualizar(Categoria categoria);
-        Task Deletar(string categoria);
+        Task Deletar(string id);
     }
 }

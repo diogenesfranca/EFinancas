@@ -51,7 +51,8 @@ namespace EFinancas.Api
 
         private static void ConfigurarServicos(IServiceCollection services)
         {
-            services.AddScoped<IGerenciamentoContaServico, GerenciamentoContaServico>();
+            services.AddScoped<IGerenciamentoCategoriasServico, GerenciamentoCategoriasServico>();
+            services.AddScoped<IGerenciamentoContasServico, GerenciamentoContasServico>();
         }
     }
 }

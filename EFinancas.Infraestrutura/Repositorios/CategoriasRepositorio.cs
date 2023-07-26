@@ -29,9 +29,9 @@ namespace EFinancas.Infraestrutura.Repositorios
             return collection.ReplaceOneAsync(x => x.Id == categoria.Id, categoria);
         }
 
-        public Task Deletar(string categoria)
+        public Task Deletar(string id)
         {
-            return collection.DeleteOneAsync(x => x.Descricao == categoria);
+            return collection.DeleteOneAsync(x => x.Id == id);
         }
     }
 }

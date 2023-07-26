@@ -13,13 +13,13 @@ namespace EFinancas.Api.Controllers
     {
         private readonly ILogger<ContasController> logger;
         private readonly IContasRepositorio contasRepositorio;
-        private readonly IGerenciamentoContaServico gerenciamentoContaServico;
+        private readonly IGerenciamentoContasServico gerenciamentoContasServico;
 
-        public ContasController(ILogger<ContasController> logger, IContasRepositorio contasRepositorio, IGerenciamentoContaServico gerenciamentoContaServico)
+        public ContasController(ILogger<ContasController> logger, IContasRepositorio contasRepositorio, IGerenciamentoContasServico gerenciamentoContasServico)
         {
             this.logger = logger;
             this.contasRepositorio = contasRepositorio;
-            this.gerenciamentoContaServico = gerenciamentoContaServico;
+            this.gerenciamentoContasServico = gerenciamentoContasServico;
         }
 
         [HttpGet]
@@ -33,7 +33,7 @@ namespace EFinancas.Api.Controllers
         {
             try
             {
-                await gerenciamentoContaServico.Inserir(conta);
+                await gerenciamentoContasServico.Inserir(conta);
                 return Ok();
             }
             catch (ContaException ex)
@@ -53,7 +53,7 @@ namespace EFinancas.Api.Controllers
         {
             try
             {
-                await gerenciamentoContaServico.Atualizar(id, conta);
+                await gerenciamentoContasServico.Atualizar(id, conta);
                 return Ok();
             }
             catch (ContaException ex)
