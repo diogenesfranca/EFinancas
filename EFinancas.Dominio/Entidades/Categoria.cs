@@ -9,6 +9,8 @@ namespace EFinancas.Dominio.Entidades
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; } = "";
+
+        [BsonElement("descricao", Order = 1)]
         public string Descricao { get; set; } = "";
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace EFinancas.Dominio.Interfaces.Entidades
 {
-    internal interface IIdentificador
+    public interface IIdentificador
     {
         string Id { get; set; }
     }

@@ -5,33 +5,10 @@ using MongoDB.Driver;
 
 namespace EFinancas.Infraestrutura.Repositorios
 {
-    public class ContasRepositorio : IContasRepositorio
+    public class ContasRepositorio : RepositorioBase<Conta>, IContasRepositorio
     {
-        private readonly IMongoCollection<Conta> collection;
-
-        public ContasRepositorio(IMongoDatabase database)
+        public ContasRepositorio(IMongoDatabase database) : base(database, Collections.Contas)
         {
-            collection = database.GetCollection<Conta>(Collections.Contas);
-        }
-
-        public async Task<IEnumerable<Conta>> Listar()
-        {
-            return await collection.Find(Builders<Conta>.Filter.Empty).ToListAsync();
-        }
-
-        public Task Inserir(Conta conta)
-        {
-            return collection.InsertOneAsync(conta);
-        }
-
-        public Task Atualizar(Conta conta)
-        {
-            return collection.ReplaceOneAsync(x => x.Id == conta.Id, conta);
-        }
-
-        public Task Deletar(string id)
-        {
-            return collection.DeleteOneAsync(x => x.Id == id);
         }
     }
 }
