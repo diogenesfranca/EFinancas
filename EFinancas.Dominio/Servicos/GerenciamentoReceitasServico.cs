@@ -21,7 +21,7 @@ namespace EFinancas.Dominio.Servicos
         public Task Atualizar(string id, Models.Receita receita)
         {
             receita.Validar();
-            return receitasRepositorio.Atualizar(receita.Converter());
+            return receitasRepositorio.Atualizar(receita.Converter(id));
         }
     }
 }

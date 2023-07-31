@@ -21,7 +21,7 @@ namespace EFinancas.Dominio.Servicos
         public Task Atualizar(string id, Models.Conta conta)
         {
             conta.Validar();
-            return contasRepositorio.Atualizar(conta.Converter());
+            return contasRepositorio.Atualizar(conta.Converter(id));
         }
     }
 }
