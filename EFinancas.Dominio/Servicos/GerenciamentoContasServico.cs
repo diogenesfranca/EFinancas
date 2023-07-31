@@ -1,5 +1,4 @@
-﻿using EFinancas.Dominio.Entidades;
-using EFinancas.Dominio.Interfaces.Repositorios;
+﻿using EFinancas.Dominio.Interfaces.Repositorios;
 using EFinancas.Dominio.Interfaces.Servicos;
 
 namespace EFinancas.Dominio.Servicos
@@ -16,24 +15,13 @@ namespace EFinancas.Dominio.Servicos
         public Task Inserir(Models.Conta conta)
         {
             conta.Validar();
-
-            return contasRepositorio.Inserir(new Conta
-            {
-                Descricao = conta.Descricao,
-                Saldo = conta.Saldo
-            });
+            return contasRepositorio.Inserir(conta.Converter());
         }
 
         public Task Atualizar(string id, Models.Conta conta)
         {
             conta.Validar();
-
-            return contasRepositorio.Atualizar(new Conta
-            {
-                Id = id,
-                Descricao = conta.Descricao,
-                Saldo = conta.Saldo
-            });
+            return contasRepositorio.Atualizar(conta.Converter());
         }
     }
 }

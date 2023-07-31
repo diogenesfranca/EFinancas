@@ -1,5 +1,4 @@
-﻿using EFinancas.Dominio.Constantes;
-using EFinancas.Dominio.Interfaces.Entidades;
+﻿using EFinancas.Dominio.Interfaces.Entidades;
 using EFinancas.Dominio.Interfaces.Repositorios;
 using MongoDB.Driver;
 

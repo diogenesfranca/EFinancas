@@ -27,5 +27,18 @@ namespace EFinancas.Dominio.Models
             if (string.IsNullOrWhiteSpace(IdConta))
                 throw new ReceitaException("A conta deve ser informada.");
         }
+
+        public Entidades.Receita Converter(string id = "")
+        {
+            return new Entidades.Receita
+            {
+                Id = id,
+                Descricao = Descricao,
+                Valor = Valor,
+                Data = Data,
+                IdConta = IdConta,
+                IdsCategorias = IdsCategorias
+            };
+        }
     }
 }

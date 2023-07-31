@@ -18,5 +18,15 @@ namespace EFinancas.Dominio.Models
             if (Saldo < 0)
                 throw new ContaException("O saldo deve ser maior ou igual a 0");
         }
+
+        public Entidades.Conta Converter(string id = "")
+        {
+            return new Entidades.Conta
+            {
+                Id = id,
+                Descricao = Descricao,
+                Saldo = Saldo
+            };
+        }
     }
 }
