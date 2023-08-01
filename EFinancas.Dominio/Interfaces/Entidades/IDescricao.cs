@@ -2,7 +2,7 @@
 
 namespace EFinancas.Dominio.Interfaces.Entidades
 {
-    internal interface IDescricao
+    public interface IDescricao
     {
         string Descricao { get; set; }
     }

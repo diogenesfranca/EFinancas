@@ -8,32 +8,32 @@ using System.Net;
 namespace EFinancas.Api.Controllers
 {
     [ApiController]
-    [Route("api/v1/receitas")]
-    public class ReceitasController : ControllerBase
+    [Route("api/v1/despesas")]
+    public class DespesasController : ControllerBase
     {
-        private readonly ILogger<ReceitasController> logger;
-        private readonly IReceitasRepositorio receitasRepositorio;
-        private readonly IGerenciamentoReceitasServico gerenciamentoReceitasServico;
+        private readonly ILogger<DespesasController> logger;
+        private readonly IDespesasRepositorio despesasRepositorio;
+        private readonly IGerenciamentoDespesasServico gerenciamentoDespesasServico;
 
-        public ReceitasController(ILogger<ReceitasController> logger, IReceitasRepositorio receitasRepositorio, IGerenciamentoReceitasServico gerenciamentoReceitasServico)
+        public DespesasController(ILogger<DespesasController> logger, IDespesasRepositorio despesasRepositorio, IGerenciamentoDespesasServico gerenciamentoDespesasServico)
         {
             this.logger = logger;
-            this.receitasRepositorio = receitasRepositorio;
-            this.gerenciamentoReceitasServico = gerenciamentoReceitasServico;
+            this.despesasRepositorio = despesasRepositorio;
+            this.gerenciamentoDespesasServico = gerenciamentoDespesasServico;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await receitasRepositorio.Listar());
+            return Ok(await despesasRepositorio.Listar());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Receita receita)
+        public async Task<IActionResult> Post(Despesa despesa)
         {
             try
             {
-                await gerenciamentoReceitasServico.Inserir(receita);
+                await gerenciamentoDespesasServico.Inserir(despesa);
                 return Ok();
             }
             catch (FinancaException ex)
@@ -49,11 +49,11 @@ namespace EFinancas.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, [FromBody] Receita receita)
+        public async Task<IActionResult> Put(string id, [FromBody] Despesa despesa)
         {
             try
             {
-                await gerenciamentoReceitasServico.Atualizar(id, receita);
+                await gerenciamentoDespesasServico.Atualizar(id, despesa);
                 return Ok();
             }
             catch (FinancaException ex)
@@ -71,7 +71,7 @@ namespace EFinancas.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            await receitasRepositorio.Deletar(id);
+            await despesasRepositorio.Deletar(id);
             return Ok();
         }
     }

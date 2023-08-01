@@ -1,6 +1,6 @@
 ﻿namespace EFinancas.Dominio.Interfaces.Entidades
 {
-    internal interface IFinanca : IIdentificador, IDescricao
+    public interface IFinanca : IIdentificador, IDescricao
     {
         decimal Valor { get; set; }
         DateOnly Data { get; set; }

@@ -48,6 +48,7 @@ namespace EFinancas.Api
         {
             services.AddScoped<ICategoriasRepositorio, CategoriasRepositorio>();
             services.AddScoped<IContasRepositorio, ContasRepositorio>();
+            services.AddScoped<IDespesasRepositorio, DespesasRepositorio>();
             services.AddScoped<IReceitasRepositorio, ReceitasRepositorio>();
         }
 
@@ -55,6 +56,7 @@ namespace EFinancas.Api
         {
             services.AddScoped<IGerenciamentoCategoriasServico, GerenciamentoCategoriasServico>();
             services.AddScoped<IGerenciamentoContasServico, GerenciamentoContasServico>();
+            services.AddScoped<IGerenciamentoDespesasServico, GerenciamentoDespesasServico>();
             services.AddScoped<IGerenciamentoReceitasServico, GerenciamentoReceitasServico>();
         }
     }
