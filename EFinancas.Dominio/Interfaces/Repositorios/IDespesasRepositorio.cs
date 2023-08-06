@@ -2,7 +2,7 @@
 
 namespace EFinancas.Dominio.Interfaces.Repositorios
 {
-    public interface IDespesasRepositorio : IRepositorioBase<Despesa>
+    public interface IDespesasRepositorio : IFinancasRepositorio<Despesa>
     {
     }
 }

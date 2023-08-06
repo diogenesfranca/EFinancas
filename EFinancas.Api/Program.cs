@@ -58,6 +58,7 @@ namespace EFinancas.Api
             services.AddScoped<IGerenciamentoContasServico, GerenciamentoContasServico>();
             services.AddScoped<IGerenciamentoDespesasServico, GerenciamentoDespesasServico>();
             services.AddScoped<IGerenciamentoReceitasServico, GerenciamentoReceitasServico>();
+            services.AddScoped<IListagemHistoricoFinancasServico, ListagemHistoricoFinancasServico>();
         }
     }
 }

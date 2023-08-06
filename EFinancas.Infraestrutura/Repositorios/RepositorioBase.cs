@@ -4,9 +4,9 @@ using MongoDB.Driver;
 
 namespace EFinancas.Infraestrutura.Repositorios
 {
-    public class RepositorioBase<T> : IRepositorioBase<T> where T: IIdentificador
+    public abstract class RepositorioBase<T> : IRepositorioBase<T> where T: IIdentificador
     {
-        private readonly IMongoCollection<T> collection;
+        protected readonly IMongoCollection<T> collection;
 
         public RepositorioBase(IMongoDatabase database, string nomeColecao)
         {
