@@ -27,6 +27,9 @@ namespace EFinancas.Dominio.Models
 
             if (string.IsNullOrWhiteSpace(IdConta))
                 throw new FinancaException("A conta deve ser informada.");
+
+            if(Data > DateOnly.FromDateTime(DateTime.Now))
+                throw new FinancaException($"A {GetType().Name.ToLower()} não pode ser cadastrada no futuro.");
         }
 
         public TConversao Converter(string id = "")
