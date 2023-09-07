@@ -35,7 +35,7 @@ namespace EFinancas.Dominio.Servicos
             });
         }
 
-        private void Validar(string categoria)
+        private static void Validar(string categoria)
         {
             if (string.IsNullOrWhiteSpace(categoria))
                 throw new CategoriaException("A categoria deve ser preenchida.");

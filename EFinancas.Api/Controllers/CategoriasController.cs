@@ -55,7 +55,7 @@ namespace EFinancas.Api.Controllers
                 await gerenciamentoCategoriasServico.Atualizar(id, categoria);
                 return Ok();
             }
-            catch (ContaException ex)
+            catch (CategoriaException ex)
             {
                 logger.LogError(ex, ex.Message);
                 return BadRequest(ex.Message);
