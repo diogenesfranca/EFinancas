@@ -3,11 +3,13 @@ using EFinancas.Dominio.Exceptions;
 using EFinancas.Dominio.Interfaces.Repositorios;
 using EFinancas.Dominio.Interfaces.Servicos;
 using EFinancas.Dominio.Models;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Net;
 using Xunit;
+using ContaEntidade = EFinancas.Dominio.Entidades.Conta;
 
 namespace EFinancas.Testes.Api.Controllers
 {
@@ -16,10 +18,10 @@ namespace EFinancas.Testes.Api.Controllers
         private readonly Mock<ILogger<ContasController>> loggerMock = new();
         private readonly Mock<IContasRepositorio> contasRepositorioMock = new();
         private readonly Mock<IGerenciamentoContasServico> gerenciamentoContasServicoMock = new();
-        
+
         private readonly Conta conta;
         private readonly ContasController controller;
-        
+
 
         public ContasControllerTestes()
         {
@@ -35,11 +37,17 @@ namespace EFinancas.Testes.Api.Controllers
         [Fact]
         public async Task Get_Sucesso()
         {
+            //Preparação
+            contasRepositorioMock.Setup(x => x.Listar()).ReturnsAsync(new List<ContaEntidade> { new ContaEntidade { Id = "12345", Descricao = "Banco", Saldo = 50000 }, new ContaEntidade { Id = "45647", Descricao = "Carteira", Saldo = 745.30M } });
+
             //Ação
             var resultado = await controller.Get() as OkObjectResult;
 
             //Afirmação
             Assert.Equal((int)HttpStatusCode.OK, resultado!.StatusCode);
+
+            resultado.Value.Should().BeEquivalentTo(new List<ContaEntidade> { new ContaEntidade { Id = "12345", Descricao = "Banco", Saldo = 50000 }, new ContaEntidade { Id = "45647", Descricao = "Carteira", Saldo = 745.30M } });
+
             contasRepositorioMock.Verify(x => x.Listar(), Times.Once);
         }
 
