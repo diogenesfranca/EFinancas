@@ -17,8 +17,7 @@ namespace EFinancas.Testes.Api.Controllers
         private readonly Mock<IContasRepositorio> contasRepositorioMock = new();
         private readonly Mock<IGerenciamentoContasServico> gerenciamentoContasServicoMock = new();
         
-        private Conta conta;
-
+        private readonly Conta conta;
         private readonly ContasController controller;
         
 
