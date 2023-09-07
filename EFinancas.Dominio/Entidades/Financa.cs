@@ -1,9 +1,11 @@
 ﻿using EFinancas.Dominio.Interfaces.Entidades;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EFinancas.Dominio.Entidades
 {
+    [ExcludeFromCodeCoverage]
     public abstract class Financa : IFinanca
     {
         [BsonId]

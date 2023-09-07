@@ -2,11 +2,13 @@
 using EFinancas.Dominio.Entidades;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Security.Authentication;
 
 namespace EFinancas.Dominio.Configuracao
 {
+    [ExcludeFromCodeCoverage]
     public static class ConfiguracaoMongo
     {
         public static void ConfigurarMongo(this IServiceCollection services)

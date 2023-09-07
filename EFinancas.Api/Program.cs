@@ -3,9 +3,11 @@ using EFinancas.Dominio.Interfaces.Repositorios;
 using EFinancas.Dominio.Interfaces.Servicos;
 using EFinancas.Dominio.Servicos;
 using EFinancas.Infraestrutura.Repositorios;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EFinancas.Api
 {
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         public static void Main(string[] args)

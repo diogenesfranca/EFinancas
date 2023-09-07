@@ -1,7 +1,9 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 
 namespace EFinancas.Dominio.Exceptions
 {
+    [ExcludeFromCodeCoverage]
     [Serializable]
     public class ContaException : Exception
     {

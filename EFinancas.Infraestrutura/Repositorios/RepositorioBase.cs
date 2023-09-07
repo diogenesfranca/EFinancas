@@ -1,9 +1,11 @@
 ﻿using EFinancas.Dominio.Interfaces.Entidades;
 using EFinancas.Dominio.Interfaces.Repositorios;
 using MongoDB.Driver;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EFinancas.Infraestrutura.Repositorios
 {
+    [ExcludeFromCodeCoverage]
     public abstract class RepositorioBase<T> : IRepositorioBase<T> where T: IIdentificador
     {
         protected readonly IMongoCollection<T> collection;
