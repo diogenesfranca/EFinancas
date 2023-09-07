@@ -2,6 +2,7 @@
 using EFinancas.Dominio.Exceptions;
 using EFinancas.Dominio.Interfaces.Repositorios;
 using EFinancas.Dominio.Interfaces.Servicos;
+using EFinancas.Dominio.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -10,17 +11,26 @@ using Xunit;
 
 namespace EFinancas.Testes.Api.Controllers
 {
-    public class CategoriasControllerTestes
+    public class ContasControllerTestes
     {
-        private readonly Mock<ILogger<CategoriasController>> loggerMock = new();
-        private readonly Mock<ICategoriasRepositorio> categoriasRepositorioMock = new();
-        private readonly Mock<IGerenciamentoCategoriasServico> gerenciamentoCategoriasServicoMock = new();
+        private readonly Mock<ILogger<ContasController>> loggerMock = new();
+        private readonly Mock<IContasRepositorio> contasRepositorioMock = new();
+        private readonly Mock<IGerenciamentoContasServico> gerenciamentoContasServicoMock = new();
+        
+        private Conta conta;
 
-        private readonly CategoriasController controller;
+        private readonly ContasController controller;
+        
 
-        public CategoriasControllerTestes()
+        public ContasControllerTestes()
         {
-            controller = new CategoriasController(loggerMock.Object, categoriasRepositorioMock.Object, gerenciamentoCategoriasServicoMock.Object);
+            conta = new()
+            {
+                Descricao = "Banco",
+                Saldo = 600.45M
+            };
+
+            controller = new ContasController(loggerMock.Object, contasRepositorioMock.Object, gerenciamentoContasServicoMock.Object);
         }
 
         [Fact]
@@ -30,37 +40,37 @@ namespace EFinancas.Testes.Api.Controllers
             await controller.Get();
 
             //Afirmação
-            categoriasRepositorioMock.Verify(x => x.Listar(), Times.Once);
+            contasRepositorioMock.Verify(x => x.Listar(), Times.Once);
         }
 
         [Fact]
         public async Task Post_Sucesso()
         {
             //Ação
-            var resultado = await controller.Post("financas") as OkResult;
+            var resultado = await controller.Post(conta) as OkResult;
 
             //Afirmação
             Assert.Equal((int)HttpStatusCode.OK, resultado!.StatusCode);
 
-            gerenciamentoCategoriasServicoMock.Verify(x => x.Inserir("financas"), Times.Once);
+            gerenciamentoContasServicoMock.Verify(x => x.Inserir(It.Is<Conta>(x => x.Descricao == "Banco" && x.Saldo == 600.45M)), Times.Once);
 
             loggerMock.Verify(x => x.Log(It.IsAny<LogLevel>(), It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(), It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Never);
         }
 
         [Fact]
-        public async Task Post_CategoriaException()
+        public async Task Post_ContaException()
         {
             //Preparação
-            gerenciamentoCategoriasServicoMock.Setup(x => x.Inserir("xpto")).Throws(new CategoriaException("Erro qualquer"));
+            gerenciamentoContasServicoMock.Setup(x => x.Inserir(It.Is<Conta>(x => x.Descricao == "Banco" && x.Saldo == 600.45M))).Throws(new ContaException("Erro qualquer"));
 
             //Ação
-            var resultado = await controller.Post("xpto") as ObjectResult;
+            var resultado = await controller.Post(conta) as ObjectResult;
 
             //Afirmação
             Assert.Equal((int)HttpStatusCode.BadRequest, resultado!.StatusCode);
             Assert.Equal("Erro qualquer", resultado.Value);
 
-            gerenciamentoCategoriasServicoMock.Verify(x => x.Inserir("xpto"), Times.Once);
+            gerenciamentoContasServicoMock.Verify(x => x.Inserir(It.Is<Conta>(x => x.Descricao == "Banco" && x.Saldo == 600.45M)), Times.Once);
 
             loggerMock.Verify(x => x.Log(LogLevel.Error, It.IsAny<EventId>(), It.Is<It.IsAnyType>((o, t) => o.ToString() == "Erro qualquer"), It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once
             );
@@ -70,16 +80,16 @@ namespace EFinancas.Testes.Api.Controllers
         public async Task Post_InternalServerError()
         {
             //Preparação
-            gerenciamentoCategoriasServicoMock.Setup(x => x.Inserir("xpto")).Throws(new Exception("Erro qualquer"));
+            gerenciamentoContasServicoMock.Setup(x => x.Inserir(It.Is<Conta>(x => x.Descricao == "Banco" && x.Saldo == 600.45M))).Throws(new Exception("Erro qualquer"));
 
             //Ação
-            var resultado = await controller.Post("xpto") as ObjectResult;
+            var resultado = await controller.Post(conta) as ObjectResult;
 
             //Afirmação
             Assert.Equal((int)HttpStatusCode.InternalServerError, resultado!.StatusCode);
             Assert.Equal("Erro qualquer", resultado.Value);
 
-            gerenciamentoCategoriasServicoMock.Verify(x => x.Inserir("xpto"), Times.Once);
+            gerenciamentoContasServicoMock.Verify(x => x.Inserir(It.Is<Conta>(x => x.Descricao == "Banco" && x.Saldo == 600.45M)), Times.Once);
 
             loggerMock.Verify(x => x.Log(LogLevel.Error, It.IsAny<EventId>(), It.Is<It.IsAnyType>((o, t) => o.ToString() == "Erro qualquer"), It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once
             );
@@ -89,30 +99,30 @@ namespace EFinancas.Testes.Api.Controllers
         public async Task Put_Sucesso()
         {
             //Ação
-            var resultado = await controller.Put("id", "financas") as OkResult;
+            var resultado = await controller.Put("id", conta) as OkResult;
 
             //Afirmação
             Assert.Equal((int)HttpStatusCode.OK, resultado!.StatusCode);
 
-            gerenciamentoCategoriasServicoMock.Verify(x => x.Atualizar("id", "financas"), Times.Once);
+            gerenciamentoContasServicoMock.Verify(x => x.Atualizar("id", It.Is<Conta>(x => x.Descricao == "Banco" && x.Saldo == 600.45M)), Times.Once);
 
             loggerMock.Verify(x => x.Log(It.IsAny<LogLevel>(), It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(), It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Never);
         }
 
         [Fact]
-        public async Task Put_CategoriaException()
+        public async Task Put_ContaException()
         {
             //Preparação
-            gerenciamentoCategoriasServicoMock.Setup(x => x.Atualizar("id", "xpto")).Throws(new CategoriaException("Erro qualquer"));
+            gerenciamentoContasServicoMock.Setup(x => x.Atualizar("id", It.Is<Conta>(x => x.Descricao == "Banco" && x.Saldo == 600.45M))).Throws(new ContaException("Erro qualquer"));
 
             //Ação
-            var resultado = await controller.Put("id", "xpto") as ObjectResult;
+            var resultado = await controller.Put("id", conta) as ObjectResult;
 
             //Afirmação
             Assert.Equal((int)HttpStatusCode.BadRequest, resultado!.StatusCode);
             Assert.Equal("Erro qualquer", resultado.Value);
 
-            gerenciamentoCategoriasServicoMock.Verify(x => x.Atualizar("id", "xpto"), Times.Once);
+            gerenciamentoContasServicoMock.Verify(x => x.Atualizar("id", It.Is<Conta>(x => x.Descricao == "Banco" && x.Saldo == 600.45M)), Times.Once);
 
             loggerMock.Verify(x => x.Log(LogLevel.Error, It.IsAny<EventId>(), It.Is<It.IsAnyType>((o, t) => o.ToString() == "Erro qualquer"), It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once
             );
@@ -122,16 +132,16 @@ namespace EFinancas.Testes.Api.Controllers
         public async Task Put_InternalServerError()
         {
             //Preparação
-            gerenciamentoCategoriasServicoMock.Setup(x => x.Atualizar("id", "xpto")).Throws(new Exception("Erro qualquer"));
+            gerenciamentoContasServicoMock.Setup(x => x.Atualizar("id", It.Is<Conta>(x => x.Descricao == "Banco" && x.Saldo == 600.45M))).Throws(new Exception("Erro qualquer"));
 
             //Ação
-            var resultado = await controller.Put("id", "xpto") as ObjectResult;
+            var resultado = await controller.Put("id", conta) as ObjectResult;
 
             //Afirmação
             Assert.Equal((int)HttpStatusCode.InternalServerError, resultado!.StatusCode);
             Assert.Equal("Erro qualquer", resultado.Value);
 
-            gerenciamentoCategoriasServicoMock.Verify(x => x.Atualizar("id", "xpto"), Times.Once);
+            gerenciamentoContasServicoMock.Verify(x => x.Atualizar("id", It.Is<Conta>(x => x.Descricao == "Banco" && x.Saldo == 600.45M)), Times.Once);
 
             loggerMock.Verify(x => x.Log(LogLevel.Error, It.IsAny<EventId>(), It.Is<It.IsAnyType>((o, t) => o.ToString() == "Erro qualquer"), It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once
             );
@@ -146,7 +156,7 @@ namespace EFinancas.Testes.Api.Controllers
             //Afirmação
             Assert.Equal((int)HttpStatusCode.OK, resultado!.StatusCode);
 
-            categoriasRepositorioMock.Verify(x => x.Deletar("id"), Times.Once);
+            contasRepositorioMock.Verify(x => x.Deletar("id"), Times.Once);
         }
     }
 }
