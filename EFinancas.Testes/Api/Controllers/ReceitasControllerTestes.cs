@@ -3,11 +3,13 @@ using EFinancas.Dominio.Exceptions;
 using EFinancas.Dominio.Interfaces.Repositorios;
 using EFinancas.Dominio.Interfaces.Servicos;
 using EFinancas.Dominio.Models;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Net;
 using Xunit;
+using ReceitaEntidade = EFinancas.Dominio.Entidades.Receita;
 
 namespace EFinancas.Testes.Api.Controllers
 {
@@ -39,11 +41,25 @@ namespace EFinancas.Testes.Api.Controllers
         [Fact]
         public async Task Get_Sucesso()
         {
+            //Preparação
+            receitasRepositorioMock.Setup(x => x.Listar()).ReturnsAsync(new List<ReceitaEntidade>
+            {
+                new ReceitaEntidade { Id = "12345", Descricao = "Salario", IdConta = "IdConta1", Valor = 5456.43M },
+                new ReceitaEntidade { Id = "45647", Descricao = "Bonus", IdConta = "IdConta2", Valor = 500 }
+            });
+
             //Ação
             var resultado = await controller.Get() as OkObjectResult;
 
             //Afirmação
             Assert.Equal((int)HttpStatusCode.OK, resultado!.StatusCode);
+
+            resultado.Value.Should().BeEquivalentTo(new List<ReceitaEntidade>
+            {
+                new ReceitaEntidade { Id = "12345", Descricao = "Salario", IdConta = "IdConta1", Valor = 5456.43M },
+                new ReceitaEntidade { Id = "45647", Descricao = "Bonus", IdConta = "IdConta2", Valor = 500 }
+            });
+
             receitasRepositorioMock.Verify(x => x.Listar(), Times.Once);
         }
 

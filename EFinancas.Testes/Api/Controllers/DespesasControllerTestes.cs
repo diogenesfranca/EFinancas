@@ -3,11 +3,13 @@ using EFinancas.Dominio.Exceptions;
 using EFinancas.Dominio.Interfaces.Repositorios;
 using EFinancas.Dominio.Interfaces.Servicos;
 using EFinancas.Dominio.Models;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Net;
 using Xunit;
+using DespesaEntidade = EFinancas.Dominio.Entidades.Despesa;
 
 namespace EFinancas.Testes.Api.Controllers
 {
@@ -39,11 +41,25 @@ namespace EFinancas.Testes.Api.Controllers
         [Fact]
         public async Task Get_Sucesso()
         {
+            //Preparação
+            despesasRepositorioMock.Setup(x => x.Listar()).ReturnsAsync(new List<DespesaEntidade>
+            {
+                new DespesaEntidade { Id = "12345", Descricao = "Sorvete", IdConta = "IdConta1", Valor = 10.35M },
+                new DespesaEntidade { Id = "45647", Descricao = "Pastel", IdConta = "IdConta2", Valor = 7.65M }
+            });
+
             //Ação
             var resultado = await controller.Get() as OkObjectResult;
 
             //Afirmação
             Assert.Equal((int)HttpStatusCode.OK, resultado!.StatusCode);
+
+            resultado.Value.Should().BeEquivalentTo(new List<DespesaEntidade>
+            {
+                new DespesaEntidade { Id = "12345", Descricao = "Sorvete", IdConta = "IdConta1", Valor = 10.35M },
+                new DespesaEntidade { Id = "45647", Descricao = "Pastel", IdConta = "IdConta2", Valor = 7.65M }
+            });
+
             despesasRepositorioMock.Verify(x => x.Listar(), Times.Once);
         }
 
