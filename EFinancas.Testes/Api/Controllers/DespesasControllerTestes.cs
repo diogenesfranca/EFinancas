@@ -40,9 +40,10 @@ namespace EFinancas.Testes.Api.Controllers
         public async Task Get_Sucesso()
         {
             //Ação
-            await controller.Get();
+            var resultado = await controller.Get() as OkObjectResult;
 
             //Afirmação
+            Assert.Equal((int)HttpStatusCode.OK, resultado!.StatusCode);
             despesasRepositorioMock.Verify(x => x.Listar(), Times.Once);
         }
 
