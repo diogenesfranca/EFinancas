@@ -1,7 +1,9 @@
 ﻿using EFinancas.Api.Controllers;
+using EFinancas.Dominio.Entidades;
 using EFinancas.Dominio.Exceptions;
 using EFinancas.Dominio.Interfaces.Repositorios;
 using EFinancas.Dominio.Interfaces.Servicos;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -26,11 +28,16 @@ namespace EFinancas.Testes.Api.Controllers
         [Fact]
         public async Task Get_Sucesso()
         {
+            //Preparação
+            categoriasRepositorioMock.Setup(x => x.Listar()).ReturnsAsync(new List<Categoria> { new Categoria { Descricao = "Finanças", Id = "12345" }, new Categoria { Descricao = "Mercado", Id = "45678" } });
+
             //Ação
             var resultado = await controller.Get() as OkObjectResult;
 
             //Afirmação
             Assert.Equal((int)HttpStatusCode.OK, resultado!.StatusCode);
+            
+            resultado.Value.Should().BeEquivalentTo(new List<Categoria> { new Categoria { Descricao = "Finanças", Id = "12345" }, new Categoria { Descricao = "Mercado", Id = "45678" } });
 
             categoriasRepositorioMock.Verify(x => x.Listar(), Times.Once);
         }
