@@ -16,7 +16,7 @@ namespace EFinancas.Dominio.Models
             if (string.IsNullOrWhiteSpace(Descricao))
                 throw new FinancaException("A descrição deve ser preenchida.");
 
-            if (Descricao.Length > 100)
+            if (Descricao.Length > 500)
                 throw new FinancaException("A descrição não deve ter mais de 500 caracteres.");
 
             if (Valor <= 0)
