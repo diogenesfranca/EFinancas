@@ -7,6 +7,20 @@ namespace EFinancas.Testes.Dominio.Models
 {
     public class ContaTestes
     {
+        [Fact]
+        public void Validar_Sucesso()
+        {
+            //Ação
+            var ex = Record.Exception(() => new Conta
+            {
+                Descricao = "descricao",
+                Saldo = 700.35M
+            }.Validar());
+            
+            //Afirmação
+            Assert.Null(ex);
+        }
+
         [Theory]
         [InlineData("", "A descrição deve ser preenchida.")]
         [InlineData(null, "A descrição deve ser preenchida.")]
