@@ -23,11 +23,17 @@ namespace EFinancas.Api
             builder.Services.AddDateOnlyTimeOnlyStringConverters();
 
             builder.Services.ConfigurarMongo();
-            
+
             ConfigurarRepositorios(builder.Services);
             ConfigurarServicos(builder.Services);
 
             var app = builder.Build();
+
+            app.UseCors(builder => builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .SetIsOriginAllowed((host) => true)
+                .AllowCredentials());
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
