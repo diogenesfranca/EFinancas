@@ -17,7 +17,7 @@ namespace EFinancas.Testes.Api.Controllers
 
         public HistoricoFinancasControllerTestes()
         {
-            controller = new HistoricoFinancasController(listagemHistoricoFinancasServicoMock.Object);
+            controller = new(listagemHistoricoFinancasServicoMock.Object);
         }
 
         [Fact]

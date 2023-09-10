@@ -35,7 +35,7 @@ namespace EFinancas.Testes.Api.Controllers
                 IdsCategorias = new[] { "IdCategoria1", "IdCategoria2" }
             };
 
-            controller = new DespesasController(loggerMock.Object, despesasRepositorioMock.Object, gerenciamentoDespesasServicoMock.Object);
+            controller = new(loggerMock.Object, despesasRepositorioMock.Object, gerenciamentoDespesasServicoMock.Object);
         }
 
         [Fact]

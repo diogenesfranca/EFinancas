@@ -31,7 +31,7 @@ namespace EFinancas.Testes.Api.Controllers
                 Saldo = 600.45M
             };
 
-            controller = new ContasController(loggerMock.Object, contasRepositorioMock.Object, gerenciamentoContasServicoMock.Object);
+            controller = new(loggerMock.Object, contasRepositorioMock.Object, gerenciamentoContasServicoMock.Object);
         }
 
         [Fact]

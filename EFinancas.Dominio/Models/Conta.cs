@@ -7,7 +7,7 @@ namespace EFinancas.Dominio.Models
         public string Descricao { get; set; } = "";
         public decimal Saldo { get; set; }
 
-        public void Validar()
+        public virtual void Validar()
         {
             if (string.IsNullOrWhiteSpace(Descricao))
                 throw new ContaException("A descrição deve ser preenchida.");
@@ -19,7 +19,7 @@ namespace EFinancas.Dominio.Models
                 throw new ContaException("O saldo deve ser maior ou igual a 0");
         }
 
-        public Entidades.Conta Converter(string id = "")
+        public virtual Entidades.Conta Converter(string id = "")
         {
             return new Entidades.Conta
             {

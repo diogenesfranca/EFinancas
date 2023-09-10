@@ -11,7 +11,7 @@ namespace EFinancas.Dominio.Models
         public string IdConta { get; set; } = "";
         public IEnumerable<string> IdsCategorias { get; set; } = new List<string>();
 
-        public void Validar()
+        public virtual void Validar()
         {
             if (string.IsNullOrWhiteSpace(Descricao))
                 throw new FinancaException("A descrição deve ser preenchida.");
@@ -32,7 +32,7 @@ namespace EFinancas.Dominio.Models
                 throw new FinancaException($"A {GetType().Name.ToLower()} não pode ser cadastrada no futuro.");
         }
 
-        public TConversao Converter(string id = "")
+        public virtual TConversao Converter(string id = "")
         {
             return new TConversao
             {

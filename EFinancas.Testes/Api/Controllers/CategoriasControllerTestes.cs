@@ -22,7 +22,7 @@ namespace EFinancas.Testes.Api.Controllers
 
         public CategoriasControllerTestes()
         {
-            controller = new CategoriasController(loggerMock.Object, categoriasRepositorioMock.Object, gerenciamentoCategoriasServicoMock.Object);
+            controller = new(loggerMock.Object, categoriasRepositorioMock.Object, gerenciamentoCategoriasServicoMock.Object);
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace EFinancas.Testes.Api.Controllers
 
             //Afirmação
             Assert.Equal((int)HttpStatusCode.OK, resultado!.StatusCode);
-            
+
             resultado.Value.Should().BeEquivalentTo(new List<Categoria> { new Categoria { Descricao = "Finanças", Id = "12345" }, new Categoria { Descricao = "Mercado", Id = "45678" } });
 
             categoriasRepositorioMock.Verify(x => x.Listar(), Times.Once);
