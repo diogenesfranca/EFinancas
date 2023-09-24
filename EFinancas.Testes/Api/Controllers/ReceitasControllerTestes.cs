@@ -39,6 +39,51 @@ namespace EFinancas.Testes.Api.Controllers
         }
 
         [Fact]
+        public async Task Get_Por_Id_Sucesso()
+        {
+            //Preparação
+            receitasRepositorioMock.Setup(x => x.Obter("64c064883c6e31cfcbf86e52")).ReturnsAsync(new ReceitaEntidade { Id = "12345", Descricao = "Salario", IdConta = "IdConta1", Valor = 5456.43M });
+
+            //Ação
+            var resultado = await controller.Get("64c064883c6e31cfcbf86e52") as OkObjectResult;
+
+            //Afirmação
+            Assert.Equal((int)HttpStatusCode.OK, resultado!.StatusCode);
+
+            resultado.Value.Should().BeEquivalentTo(new ReceitaEntidade { Id = "12345", Descricao = "Salario", IdConta = "IdConta1", Valor = 5456.43M });
+
+            receitasRepositorioMock.Verify(x => x.Obter("64c064883c6e31cfcbf86e52"), Times.Once);
+        }
+
+        [Fact]
+        public async Task Get_Por_Id_Invalido_Erro()
+        {
+            //Ação
+            var resultado = await controller.Get("64c064883c6e31cfcbf") as ObjectResult;
+
+            //Afirmação
+            Assert.Equal((int)HttpStatusCode.BadRequest, resultado!.StatusCode);
+
+            Assert.Equal("Id inválido, por favor forneça um id no formato correto de 24 caracteres hexadecimais.", resultado.Value);
+
+            receitasRepositorioMock.Verify(x => x.Obter(It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task Get_Por_Id_Nao_Encontrado_Sucesso()
+        {
+            //Ação
+            var resultado = await controller.Get("64c064883c6e31cfcbf75e34") as ObjectResult;
+
+            //Afirmação
+            Assert.Equal((int)HttpStatusCode.NotFound, resultado!.StatusCode);
+
+            Assert.Equal("Receita não encontrada.", resultado.Value);
+
+            receitasRepositorioMock.Verify(x => x.Obter("64c064883c6e31cfcbf75e34"), Times.Once);
+        }
+
+        [Fact]
         public async Task Get_Sucesso()
         {
             //Preparação

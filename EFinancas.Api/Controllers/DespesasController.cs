@@ -3,6 +3,7 @@ using EFinancas.Dominio.Interfaces.Repositorios;
 using EFinancas.Dominio.Interfaces.Servicos;
 using EFinancas.Dominio.Models;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using System.Net;
 
 namespace EFinancas.Api.Controllers
@@ -20,6 +21,20 @@ namespace EFinancas.Api.Controllers
             this.logger = logger;
             this.despesasRepositorio = despesasRepositorio;
             this.gerenciamentoDespesasServico = gerenciamentoDespesasServico;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            if (!ObjectId.TryParse(id, out var _))
+                return BadRequest("Id inválido, por favor forneça um id no formato correto de 24 caracteres hexadecimais.");
+
+            var despesa = await despesasRepositorio.Obter(id);
+
+            if (despesa == null)
+                return NotFound("Despesa não encontrada.");
+
+            return Ok(despesa);
         }
 
         [HttpGet]

@@ -2,6 +2,7 @@ using EFinancas.Dominio.Exceptions;
 using EFinancas.Dominio.Interfaces.Repositorios;
 using EFinancas.Dominio.Interfaces.Servicos;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using System.Net;
 
 namespace EFinancas.Api.Controllers
@@ -19,6 +20,20 @@ namespace EFinancas.Api.Controllers
             this.logger = logger;
             this.categoriasRepositorio = categoriasRepositorio;
             this.gerenciamentoCategoriasServico = gerenciamentoCategoriasServico;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            if (!ObjectId.TryParse(id, out var _))
+                return BadRequest("Id inválido, por favor forneça um id no formato correto de 24 caracteres hexadecimais.");
+
+            var categoria = await categoriasRepositorio.Obter(id);
+
+            if (categoria == null)
+                return NotFound("Categoria não encontrada.");
+
+            return Ok(categoria);
         }
 
         [HttpGet]
@@ -44,7 +59,7 @@ namespace EFinancas.Api.Controllers
             {
                 logger.LogError(ex, ex.Message);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-            }            
+            }
         }
 
         [HttpPut("{id}")]

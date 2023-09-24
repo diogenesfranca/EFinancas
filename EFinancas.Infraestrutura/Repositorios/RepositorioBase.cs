@@ -15,6 +15,11 @@ namespace EFinancas.Infraestrutura.Repositorios
             collection = database.GetCollection<T>(nomeColecao);
         }
 
+        public async Task<T> Obter(string id)
+        {
+            return await collection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<T>> Listar()
         {
             return await collection.Find(Builders<T>.Filter.Empty).ToListAsync();
